@@ -1,24 +1,13 @@
-var sketch = (p: p5) => {
-
-    const morph = new Morph();
-
-    p.preload = () => {
-
-    }
-    
+const sketch = function (p: p5) {
+    this.size = 500;
+    this.resolution = 10;
     p.setup = () => {
-        p.createCanvas(p.windowWidth, p.windowHeight);
-        morph.setup(p);
+        p.createCanvas(this.size, this.size);
     }
-    
-    p.windowResized = () => {
-        p.resizeCanvas(p.windowWidth, p.windowHeight);
-    }
-    
+
     p.draw = () => {
-        p.background(100);
-        morph.draw(p);        
+        p.background(51);
     }
 }
 
-var sketchP = new p5(sketch);
+const p5Sketch = new p5(sketch);

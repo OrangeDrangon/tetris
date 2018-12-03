@@ -1,0 +1,6 @@
+class Piece {
+    constructor() {
+    }
+}
+
+
