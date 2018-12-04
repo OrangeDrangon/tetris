@@ -1,12 +1,15 @@
-const sketch = function (p: p5) {
-    this.size = 500;
-    this.resolution = 10;
+const sketch = (p: p5) => {
     p.setup = () => {
-        p.createCanvas(this.size, this.size);
+        p.createCanvas(250, 500);
+        p.frameRate(15);
+        this.board = new Board(250);
+
     }
 
     p.draw = () => {
         p.background(51);
+        this.board.draw(p);
+        this.board.tick();
     }
 }
 
