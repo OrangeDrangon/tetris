@@ -31,7 +31,7 @@ class Board {
             p.fill(255, 255, 255);
             p.textSize(40);
             p.textAlign(p.CENTER);
-            p.text('Game Over', this.width/2, this.height/2);
+            p.text('Game Over', this.width / 2, this.height / 2);
         }
     }
 
@@ -76,5 +76,43 @@ class Board {
         points.forEach((point) => {
             point.y++;
         });
+    }
+
+    public translate(keyCode: number) {
+        const points = this.acivePiece.points;
+
+        try {
+            if (keyCode === 39) {
+                let over = false;
+                points.forEach((point) => {
+                    if (this.state[point.x + 1][point.y]) {
+                        over = true;
+                        return;
+                    }
+                });
+                if (over) { return; };
+
+                points.forEach((point) => {
+                    point.x++;
+                });
+            } else if (keyCode === 37) {
+                let over = false;
+                points.forEach((point) => {
+                    if (this.state[point.x - 1][point.y]) {
+                        over = true;
+                        return;
+                    }
+                });
+                if (over) { return; };
+
+                points.forEach((point) => {
+                    point.x--;
+                });
+            }
+        } catch (error) { }
+    }
+
+    public rotate(keyCode: number) {
+
     }
 }
