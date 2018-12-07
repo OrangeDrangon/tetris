@@ -94,9 +94,8 @@ class Board {
                     point.x--;
                 });
             }
-        } catch (error) {
-            console.error(error);
-        }
+        // tslint:disable-next-line:no-empty
+        } catch (error) {}
     }
 
     public rotate() {

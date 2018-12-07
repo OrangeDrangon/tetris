@@ -9,9 +9,8 @@ class KeyManager {
                     keyCallback.func();
                     this.intervals[p.keyCode] = setInterval(keyCallback.func, keyCallback.delay);
                 }
-            } catch (error) {
-                console.error(error);
-            }
+            // tslint:disable-next-line:no-empty
+            } catch (error) {}
         };
 
         p.keyReleased = () => {
