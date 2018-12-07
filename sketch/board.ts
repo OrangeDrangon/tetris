@@ -128,8 +128,3 @@ class Board {
         this.activePiece = this.newPiece();
     }
 }
-
-interface PossibleShape {
-    points: Points;
-    color: Color;
-}

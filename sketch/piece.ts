@@ -15,11 +15,3 @@ class Piece {
         });
     }
 }
-
-type Points = [Point, Point, Point, Point];
-
-interface Color {
-    r: number;
-    g: number;
-    b: number;
-}
