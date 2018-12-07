@@ -1,8 +1,8 @@
 class PlacedPiece {
     public location: Point;
-    public color: IColor;
+    public color: Color;
     public resolution: number;
-    constructor(resolution: number, location: Point, color: IColor) {
+    constructor(resolution: number, location: Point, color: Color) {
         this.location = location;
         this.color = color;
         this.resolution = resolution;

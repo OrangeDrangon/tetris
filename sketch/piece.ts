@@ -1,8 +1,8 @@
 class Piece {
     public points: Points; // Bottom left corner then over then up
-    public color: IColor;
+    public color: Color;
     private resolution: number;
-    constructor(resolution: number, points: Points, color: IColor) {
+    constructor(resolution: number, points: Points, color: Color) {
         this.points = points;
         this.color = color;
         this.resolution = resolution;
@@ -18,7 +18,7 @@ class Piece {
 
 type Points = [Point, Point, Point, Point];
 
-interface IColor {
+interface Color {
     r: number;
     g: number;
     b: number;

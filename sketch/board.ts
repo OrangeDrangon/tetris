@@ -6,9 +6,9 @@ class Board {
     private state: PlacedPiece[][];
     private activePiece: Piece;
     private placedPieces: PlacedPiece[];
-    private possibleShapes: Points[];
+    private possibleShapes: PossibleShape[];
 
-    constructor(width: number, possibleShapes: Points[]) {
+    constructor(width: number, possibleShapes: PossibleShape[]) {
         if (width % 10 !== 0) {
             throw new Error('Width must be divisible by 10');
         } else if (width <= 100) {
@@ -105,15 +105,16 @@ class Board {
     }
 
     private newPiece() {
-        const copy = this.possibleShapes.map((arr) => {
-            let newArr = arr.slice();
-            newArr = newArr.map((point) => point.clone());
-            return newArr;
+        const copy: PossibleShape[] = this.possibleShapes.map((obj) => {
+            const newObj = Object.assign({}, obj) as PossibleShape;
+            newObj.points = newObj.points.map((point) => point.clone()) as Points;
+            return newObj;
         });
+        const shape = copy[Math.floor(Math.random() * copy.length)];
         const newPiece = new Piece(
             this.resolution,
-            copy[Math.floor(Math.random() * copy.length)] as Points,
-            { r: 255, g: 0, b: 0 },
+            shape.points,
+            shape.color,
         );
         return newPiece;
     }
@@ -126,4 +127,9 @@ class Board {
         });
         this.activePiece = this.newPiece();
     }
+}
+
+interface PossibleShape {
+    points: Points;
+    color: Color;
 }
