@@ -67,7 +67,6 @@ const possibleShapes: PossibleShape[] = [
 const sketch = (p: p5) => {
     p.setup = () => {
         p.createCanvas(250, 500);
-        p.frameRate(60);
         this.board = new Board(250, possibleShapes);
         this.keyManager = new KeyManager(p, {
             37: {
@@ -97,11 +96,11 @@ const sketch = (p: p5) => {
     p.draw = () => {
         p.background(51);
         this.board.draw(p);
-        const link = document.createElement('link');
-        link.type = 'image/x-icon';
-        link.rel = 'shortcut icon';
-        link.href = document.getElementsByTagName('canvas')[0].toDataURL();
-        document.getElementsByTagName('head')[0].appendChild(link);
+        // const link = document.getElementsByTagName('link')[0];
+        // link.type = 'image/x-icon';
+        // link.rel = 'shortcut icon';
+        // link.href = document.getElementsByTagName('canvas')[0].toDataURL();
+        // document.getElementsByTagName('head')[0].appendChild(link);
     };
 };
 

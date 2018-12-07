@@ -5,7 +5,6 @@ class Board {
     public gameOver: boolean;
     private state: PlacedPiece[][];
     private activePiece: Piece;
-    private placedPieces: PlacedPiece[];
     private possibleShapes: PossibleShape[];
 
     constructor(width: number, possibleShapes: PossibleShape[]) {
@@ -19,15 +18,16 @@ class Board {
         this.resolution = width / 10;
         this.gameOver = false;
         this.state = new Array(10).fill(undefined).map(() => new Array(20).fill(undefined));
-        this.placedPieces = new Array();
         this.possibleShapes = possibleShapes;
         this.activePiece = this.newPiece();
     }
 
     public draw(p: p5) {
         this.activePiece.draw(p);
-        this.placedPieces.forEach((piece) => {
-            piece.draw(p);
+        this.state.forEach((column) => {
+            column.forEach((piece) => {
+                if (piece) { piece.draw(p); }
+            });
         });
         if (this.gameOver) {
             p.fill(255, 255, 255);
@@ -39,6 +39,21 @@ class Board {
 
     public tick() {
         if (this.gameOver) { return; }
+        for (let i = 0; i < this.state[0].length; i++) {
+            if (this.checkRow(i)) {
+                console.log('called');
+                this.state.forEach((column) => {
+                    column[i] = undefined;
+                    for (let j = i; j >= 0; j--) {
+                        if (column[j] && !column[j + 1]) {
+                            column[j].location.y++;
+                            column[j + 1] = column[j];
+                            column[j] = undefined;
+                        }
+                    }
+                });
+            }
+        }
         const points = this.activePiece.points;
         let over = false;
         this.state.forEach((column) => {
@@ -123,8 +138,15 @@ class Board {
         const piece = this.activePiece;
         piece.points.forEach((point) => {
             this.state[point.x][point.y] = new PlacedPiece(this.resolution, new Point(point.x, point.y), piece.color);
-            this.placedPieces.push(this.state[point.x][point.y]);
         });
         this.activePiece = this.newPiece();
+    }
+
+    private checkRow(row: number) {
+        let full = true;
+        this.state.forEach((column) => {
+            if (!(column[row] && full)) { full = false; }
+        });
+        return full;
     }
 }
