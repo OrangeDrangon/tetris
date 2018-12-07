@@ -4,7 +4,7 @@ class Board {
     public resolution: number;
     public gameOver: boolean;
     private state: Array<Array<PlacedPiece>>;
-    private acivePiece: Piece;
+    private activePiece: Piece;
     private placedPieces: PlacedPiece[];
 
     constructor(width: number) {
@@ -19,11 +19,11 @@ class Board {
         this.gameOver = false;
         this.state = new Array(10).fill(undefined).map(arr => new Array(20).fill(undefined));
         this.placedPieces = new Array();
-        this.acivePiece = this.newPiece([new Point(0, -1), new Point(1, -1), new Point(0, -2), new Point(1, -2)]);
+        this.activePiece = this.newPiece([new Point(0, -1), new Point(1, -1), new Point(0, -2), new Point(1, -2)]);
     }
 
     public draw(p: p5) {
-        this.acivePiece.draw(p);
+        this.activePiece.draw(p);
         this.placedPieces.forEach((piece) => {
             piece.draw(p);
         });
@@ -41,17 +41,17 @@ class Board {
     }
 
     private placePiece() {
-        const piece = this.acivePiece;
+        const piece = this.activePiece;
         piece.points.forEach(point => {
             this.state[point.x][point.y] = new PlacedPiece(this.resolution, new Point(point.x, point.y), piece.color);
             this.placedPieces.push(this.state[point.x][point.y]);
         });
-        this.acivePiece = this.newPiece([new Point(0, -1), new Point(1, -1), new Point(0, -2), new Point(1, -2)]);
+        this.activePiece = this.newPiece([new Point(0, -1), new Point(3, -1), new Point(0, -2), new Point(1, -2)]);
     }
 
     public tick() {
         if (this.gameOver) { return; }
-        const points = this.acivePiece.points;
+        const points = this.activePiece.points;
         let over = false;
         this.state.forEach((column) => {
             if (column[0]) {
@@ -79,8 +79,7 @@ class Board {
     }
 
     public translate(keyCode: number) {
-        const points = this.acivePiece.points;
-
+        const points = this.activePiece.points;
         try {
             if (keyCode === 39) {
                 let over = false;
@@ -112,7 +111,10 @@ class Board {
         } catch (error) { }
     }
 
-    public rotate(keyCode: number) {
-
+    public rotate() {
+        this.activePiece.points.forEach((point, index) => {
+            const newPoint = new Point(point.y, point.x);
+            this.activePiece.points[index] = newPoint;
+        })
     }
 }

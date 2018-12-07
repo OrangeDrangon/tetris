@@ -1,25 +1,32 @@
 const sketch = (p: p5) => {
     p.setup = () => {
         p.createCanvas(250, 500);
-        p.frameRate(15);
+        p.frameRate(60);
         this.board = new Board(250);
-
+        this.keyManager = new KeyManager(p, {
+            37: {
+                func: (() => { this.board.translate(37); }),
+                delay: 150,
+            },
+            38: {
+                func: (() => { this.board.rotate(); }),
+                delay: 200,
+            },
+            39: {
+                func: (() => { this.board.translate(39); }),
+                delay: 150,
+            },
+            40: {
+                func: (() => { this.board.tick(); }),
+                delay: 85,
+            },
+        });
+        setInterval(() => { this.board.tick(); }, 550)
     }
 
     p.draw = () => {
         p.background(51);
         this.board.draw(p);
-        this.board.tick();
-    }
-
-    p.keyPressed = () => {        
-        if (p.keyCode === 37 || p.keyCode === 39) {
-            this.board.translate(p.keyCode);
-        } else if (p.keyCode === 38 || p.keyCode === 40) {
-            this.board.rotate(p.keyCode);
-        } else if (p.keyCode === 13 && this.board.gameOver) {
-            this.board = new Board(250);
-        }
     }
 }
 
