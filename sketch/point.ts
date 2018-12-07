@@ -5,4 +5,7 @@ class Point {
         this.x = x;
         this.y = y;
     }
+    public clone() {
+        return new Point(this.x, this.y);
+    }
 }

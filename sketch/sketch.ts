@@ -1,8 +1,53 @@
+const possibleShapes: Points[] = [
+    [
+        new Point(0, -1),
+        new Point(1, -1),
+        new Point(0, -2),
+        new Point(1, -2),
+    ],
+    [
+        new Point(0, -1),
+        new Point(0, -2),
+        new Point(0, -3),
+        new Point(0, -4),
+    ],
+    [
+        new Point(0, -1),
+        new Point(0, -2),
+        new Point(1, -2),
+        new Point(2, -2),
+    ],
+    [
+        new Point(2, -1),
+        new Point(0, -2),
+        new Point(1, -2),
+        new Point(2, -2),
+    ],
+    [
+        new Point(0, -1),
+        new Point(1, -1),
+        new Point(2, -1),
+        new Point(1, -2),
+    ],
+    [
+        new Point(0, -1),
+        new Point(1, -1),
+        new Point(1, -2),
+        new Point(2, -2),
+    ],
+    [
+        new Point(1, -1),
+        new Point(2, -1),
+        new Point(0, -2),
+        new Point(1, -2),
+    ],
+];
+
 const sketch = (p: p5) => {
     p.setup = () => {
         p.createCanvas(250, 500);
         p.frameRate(60);
-        this.board = new Board(250);
+        this.board = new Board(250, possibleShapes);
         this.keyManager = new KeyManager(p, {
             37: {
                 delay: 150,

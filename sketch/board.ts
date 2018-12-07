@@ -6,8 +6,9 @@ class Board {
     private state: PlacedPiece[][];
     private activePiece: Piece;
     private placedPieces: PlacedPiece[];
+    private possibleShapes: Points[];
 
-    constructor(width: number) {
+    constructor(width: number, possibleShapes: Points[]) {
         if (width % 10 !== 0) {
             throw new Error('Width must be divisible by 10');
         } else if (width <= 100) {
@@ -19,7 +20,8 @@ class Board {
         this.gameOver = false;
         this.state = new Array(10).fill(undefined).map(() => new Array(20).fill(undefined));
         this.placedPieces = new Array();
-        this.activePiece = this.newPiece([new Point(0, -1), new Point(1, -1), new Point(0, -2), new Point(1, -2)]);
+        this.possibleShapes = possibleShapes;
+        this.activePiece = this.newPiece();
     }
 
     public draw(p: p5) {
@@ -94,16 +96,25 @@ class Board {
                     point.x--;
                 });
             }
-        // tslint:disable-next-line:no-empty
-        } catch (error) {}
+            // tslint:disable-next-line:no-empty
+        } catch (error) { }
     }
 
     public rotate() {
         console.log('rotated');
     }
 
-    private newPiece(points: Points) {
-        const newPiece = new Piece(this.resolution, points, { r: 255, g: 0, b: 0 });
+    private newPiece() {
+        const copy = this.possibleShapes.map((arr) => {
+            let newArr = arr.slice();
+            newArr = newArr.map((point) => point.clone());
+            return newArr;
+        });
+        const newPiece = new Piece(
+            this.resolution,
+            copy[Math.floor(Math.random() * copy.length)] as Points,
+            { r: 255, g: 0, b: 0 },
+        );
         return newPiece;
     }
 
@@ -113,6 +124,6 @@ class Board {
             this.state[point.x][point.y] = new PlacedPiece(this.resolution, new Point(point.x, point.y), piece.color);
             this.placedPieces.push(this.state[point.x][point.y]);
         });
-        this.activePiece = this.newPiece([new Point(0, -1), new Point(3, -1), new Point(0, -2), new Point(1, -2)]);
+        this.activePiece = this.newPiece();
     }
 }
