@@ -1,6 +1,6 @@
 class KeyManager {
-    public intervals: IKeyIntervals;
-    constructor(p: p5, keyCallbacks: IKeyCallbacks) {
+    public intervals: KeyIntervals;
+    constructor(p: p5, keyCallbacks: KeyCallbacks) {
         this.intervals = {};
         p.keyPressed = () => {
             try {
@@ -9,8 +9,8 @@ class KeyManager {
                     keyCallback.func();
                     this.intervals[p.keyCode] = setInterval(keyCallback.func, keyCallback.delay);
                 }
-            // tslint:disable-next-line:no-empty
-            } catch (error) {}
+                // tslint:disable-next-line:no-empty
+            } catch (error) { }
         };
 
         p.keyReleased = () => {
@@ -25,7 +25,7 @@ class KeyManager {
     }
 }
 
-interface IKeyCallbacks {
+interface KeyCallbacks {
     [index: number]: { func: () => void, delay: number };
     65?: { func: () => void, delay: number };
     66?: { func: () => void, delay: number };
@@ -57,9 +57,10 @@ interface IKeyCallbacks {
     38?: { func: () => void, delay: number };
     39?: { func: () => void, delay: number };
     40?: { func: () => void, delay: number };
+    13?: { func: () => void, delay: number };
 }
 
-interface IKeyIntervals {
+interface KeyIntervals {
     [index: number]: number;
     65?: number;
     66?: number;
@@ -91,4 +92,5 @@ interface IKeyIntervals {
     38?: number;
     39?: number;
     40?: number;
+    13?: number;
 }

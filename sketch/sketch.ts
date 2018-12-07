@@ -86,6 +86,10 @@ const sketch = (p: p5) => {
                 delay: 85,
                 func: (() => { this.board.tick(); }),
             },
+            13: {
+                delay: Infinity,
+                func: (() => { if (this.board.gameOver) { this.board = new Board(250, possibleShapes); } }),
+            },
         });
         setInterval(() => { this.board.tick(); }, 550);
     };
