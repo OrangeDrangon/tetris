@@ -3,7 +3,7 @@ class Board {
     public height: number;
     public resolution: number;
     public gameOver: boolean;
-    private state: Array<Array<PlacedPiece>>;
+    private state: PlacedPiece[][];
     private activePiece: Piece;
     private placedPieces: PlacedPiece[];
 
@@ -17,7 +17,7 @@ class Board {
         this.height = width * 2;
         this.resolution = width / 10;
         this.gameOver = false;
-        this.state = new Array(10).fill(undefined).map(arr => new Array(20).fill(undefined));
+        this.state = new Array(10).fill(undefined).map(() => new Array(20).fill(undefined));
         this.placedPieces = new Array();
         this.activePiece = this.newPiece([new Point(0, -1), new Point(1, -1), new Point(0, -2), new Point(1, -2)]);
     }
@@ -33,20 +33,6 @@ class Board {
             p.textAlign(p.CENTER);
             p.text('Game Over', this.width / 2, this.height / 2);
         }
-    }
-
-    private newPiece(points: Points) {
-        const newPiece = new Piece(this.resolution, points, { r: 255, g: 0, b: 0 });
-        return newPiece;
-    }
-
-    private placePiece() {
-        const piece = this.activePiece;
-        piece.points.forEach(point => {
-            this.state[point.x][point.y] = new PlacedPiece(this.resolution, new Point(point.x, point.y), piece.color);
-            this.placedPieces.push(this.state[point.x][point.y]);
-        });
-        this.activePiece = this.newPiece([new Point(0, -1), new Point(3, -1), new Point(0, -2), new Point(1, -2)]);
     }
 
     public tick() {
@@ -89,7 +75,7 @@ class Board {
                         return;
                     }
                 });
-                if (over) { return; };
+                if (over) { return; }
 
                 points.forEach((point) => {
                     point.x++;
@@ -102,16 +88,32 @@ class Board {
                         return;
                     }
                 });
-                if (over) { return; };
+                if (over) { return; }
 
                 points.forEach((point) => {
                     point.x--;
                 });
             }
-        } catch (error) { }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     public rotate() {
-        
+        console.log('rotated');
+    }
+
+    private newPiece(points: Points) {
+        const newPiece = new Piece(this.resolution, points, { r: 255, g: 0, b: 0 });
+        return newPiece;
+    }
+
+    private placePiece() {
+        const piece = this.activePiece;
+        piece.points.forEach((point) => {
+            this.state[point.x][point.y] = new PlacedPiece(this.resolution, new Point(point.x, point.y), piece.color);
+            this.placedPieces.push(this.state[point.x][point.y]);
+        });
+        this.activePiece = this.newPiece([new Point(0, -1), new Point(3, -1), new Point(0, -2), new Point(1, -2)]);
     }
 }

@@ -9,53 +9,55 @@ class KeyManager {
                     keyCallback.func();
                     this.intervals[p.keyCode] = setInterval(keyCallback.func, keyCallback.delay);
                 }
-            } catch (e) { }
-        }
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
         p.keyReleased = () => {
             for (const key in this.intervals) {
                 if (this.intervals.hasOwnProperty(key)) {
-                    let interval = this.intervals[key];
+                    const interval = this.intervals[key];
                     clearInterval(interval);
                     this.intervals[key] = undefined;
                 }
             }
-        }
+        };
     }
 }
 
 interface IKeyCallbacks {
-    [index: number]: { func: Function, delay: number };
-    65?: { func: Function, delay: number };
-    66?: { func: Function, delay: number };
-    67?: { func: Function, delay: number };
-    68?: { func: Function, delay: number };
-    69?: { func: Function, delay: number };
-    70?: { func: Function, delay: number };
-    71?: { func: Function, delay: number };
-    72?: { func: Function, delay: number };
-    73?: { func: Function, delay: number };
-    74?: { func: Function, delay: number };
-    75?: { func: Function, delay: number };
-    76?: { func: Function, delay: number };
-    77?: { func: Function, delay: number };
-    78?: { func: Function, delay: number };
-    79?: { func: Function, delay: number };
-    80?: { func: Function, delay: number };
-    81?: { func: Function, delay: number };
-    82?: { func: Function, delay: number };
-    83?: { func: Function, delay: number };
-    84?: { func: Function, delay: number };
-    85?: { func: Function, delay: number };
-    86?: { func: Function, delay: number };
-    87?: { func: Function, delay: number };
-    88?: { func: Function, delay: number };
-    89?: { func: Function, delay: number };
-    90?: { func: Function, delay: number };
-    37?: { func: Function, delay: number };
-    38?: { func: Function, delay: number };
-    39?: { func: Function, delay: number };
-    40?: { func: Function, delay: number };
+    [index: number]: { func: () => void, delay: number };
+    65?: { func: () => void, delay: number };
+    66?: { func: () => void, delay: number };
+    67?: { func: () => void, delay: number };
+    68?: { func: () => void, delay: number };
+    69?: { func: () => void, delay: number };
+    70?: { func: () => void, delay: number };
+    71?: { func: () => void, delay: number };
+    72?: { func: () => void, delay: number };
+    73?: { func: () => void, delay: number };
+    74?: { func: () => void, delay: number };
+    75?: { func: () => void, delay: number };
+    76?: { func: () => void, delay: number };
+    77?: { func: () => void, delay: number };
+    78?: { func: () => void, delay: number };
+    79?: { func: () => void, delay: number };
+    80?: { func: () => void, delay: number };
+    81?: { func: () => void, delay: number };
+    82?: { func: () => void, delay: number };
+    83?: { func: () => void, delay: number };
+    84?: { func: () => void, delay: number };
+    85?: { func: () => void, delay: number };
+    86?: { func: () => void, delay: number };
+    87?: { func: () => void, delay: number };
+    88?: { func: () => void, delay: number };
+    89?: { func: () => void, delay: number };
+    90?: { func: () => void, delay: number };
+    37?: { func: () => void, delay: number };
+    38?: { func: () => void, delay: number };
+    39?: { func: () => void, delay: number };
+    40?: { func: () => void, delay: number };
 }
 
 interface IKeyIntervals {
