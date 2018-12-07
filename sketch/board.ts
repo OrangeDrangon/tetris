@@ -112,9 +112,6 @@ class Board {
     }
 
     public rotate() {
-        this.activePiece.points.forEach((point, index) => {
-            const newPoint = new Point(point.y, point.x);
-            this.activePiece.points[index] = newPoint;
-        })
+        
     }
 }

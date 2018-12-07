@@ -25,6 +25,7 @@ class PlacedPiece {
         this.color = color;
         this.resolution = resolution;
     }
+
     public draw(p: p5) {
         p.fill(this.color.r, this.color.g, this.color.b);
         p.rect(this.location.x * this.resolution, this.location.y * this.resolution, this.resolution, this.resolution);
