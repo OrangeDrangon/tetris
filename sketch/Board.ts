@@ -3,11 +3,11 @@ class Board {
     public height: number;
     public resolution: number;
     public gameOver: boolean;
-    private state: Array<Array<PlacedPiece>>;
+    private state: PlacedPiece[][];
     private activePiece: Piece;
-    private placedPieces: PlacedPiece[];
+    private possibleShapes: PossibleShape[];
 
-    constructor(width: number) {
+    constructor(width: number, possibleShapes: PossibleShape[]) {
         if (width % 10 !== 0) {
             throw new Error('Width must be divisible by 10');
         } else if (width <= 100) {
@@ -17,15 +17,17 @@ class Board {
         this.height = width * 2;
         this.resolution = width / 10;
         this.gameOver = false;
-        this.state = new Array(10).fill(undefined).map(arr => new Array(20).fill(undefined));
-        this.placedPieces = new Array();
-        this.activePiece = this.newPiece([new Point(0, -1), new Point(1, -1), new Point(0, -2), new Point(1, -2)]);
+        this.state = new Array(10).fill(undefined).map(() => new Array(20).fill(undefined));
+        this.possibleShapes = possibleShapes;
+        this.activePiece = this.newPiece();
     }
 
     public draw(p: p5) {
         this.activePiece.draw(p);
-        this.placedPieces.forEach((piece) => {
-            piece.draw(p);
+        this.state.forEach((column) => {
+            column.forEach((piece) => {
+                if (piece) { piece.draw(p); }
+            });
         });
         if (this.gameOver) {
             p.fill(255, 255, 255);
@@ -35,22 +37,23 @@ class Board {
         }
     }
 
-    private newPiece(points: Points) {
-        const newPiece = new Piece(this.resolution, points, { r: 255, g: 0, b: 0 });
-        return newPiece;
-    }
-
-    private placePiece() {
-        const piece = this.activePiece;
-        piece.points.forEach(point => {
-            this.state[point.x][point.y] = new PlacedPiece(this.resolution, new Point(point.x, point.y), piece.color);
-            this.placedPieces.push(this.state[point.x][point.y]);
-        });
-        this.activePiece = this.newPiece([new Point(0, -1), new Point(3, -1), new Point(0, -2), new Point(1, -2)]);
-    }
-
     public tick() {
         if (this.gameOver) { return; }
+        for (let i = 0; i < this.state[0].length; i++) {
+            if (this.checkRow(i)) {
+                console.log('called');
+                this.state.forEach((column) => {
+                    column[i] = undefined;
+                    for (let j = i; j >= 0; j--) {
+                        if (column[j] && !column[j + 1]) {
+                            column[j].location.y++;
+                            column[j + 1] = column[j];
+                            column[j] = undefined;
+                        }
+                    }
+                });
+            }
+        }
         const points = this.activePiece.points;
         let over = false;
         this.state.forEach((column) => {
@@ -89,7 +92,7 @@ class Board {
                         return;
                     }
                 });
-                if (over) { return; };
+                if (over) { return; }
 
                 points.forEach((point) => {
                     point.x++;
@@ -102,16 +105,48 @@ class Board {
                         return;
                     }
                 });
-                if (over) { return; };
+                if (over) { return; }
 
                 points.forEach((point) => {
                     point.x--;
                 });
             }
+            // tslint:disable-next-line:no-empty
         } catch (error) { }
     }
 
     public rotate() {
-        
+        console.log('rotated');
+    }
+
+    private newPiece() {
+        const copy: PossibleShape[] = this.possibleShapes.map((obj) => {
+            const newObj = Object.assign({}, obj) as PossibleShape;
+            newObj.points = newObj.points.map((point) => point.clone()) as Points;
+            return newObj;
+        });
+        const shape = copy[Math.floor(Math.random() * copy.length)];
+        const newPiece = new Piece(
+            this.resolution,
+            shape.points,
+            shape.color,
+        );
+        return newPiece;
+    }
+
+    private placePiece() {
+        const piece = this.activePiece;
+        piece.points.forEach((point) => {
+            this.state[point.x][point.y] = new PlacedPiece(this.resolution, new Point(point.x, point.y), piece.color);
+        });
+        this.activePiece = this.newPiece();
+    }
+
+    private checkRow(row: number) {
+        let full = true;
+        this.state.forEach((column) => {
+            if (!(column[row] && full)) { full = false; }
+        });
+        return full;
     }
 }
