@@ -14,4 +14,8 @@ class Piece {
             p.rect(point.x * this.resolution, point.y * this.resolution, this.resolution, this.resolution);
         });
     }
+
+    public toArray() {
+        console.log(this.points);
+    }
 }

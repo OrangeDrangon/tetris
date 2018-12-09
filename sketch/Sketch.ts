@@ -66,8 +66,9 @@ const possibleShapes: PossibleShape[] = [
 
 const sketch = (p: p5) => {
     p.setup = () => {
-        p.createCanvas(250, 500);
-        this.board = new Board(250, possibleShapes);
+        const width = 300;
+        p.createCanvas(width, width * 2);
+        this.board = new Board(width, possibleShapes);
         this.keyManager = new KeyManager(p, {
             37: {
                 delay: 150,
@@ -87,7 +88,7 @@ const sketch = (p: p5) => {
             },
             13: {
                 delay: Infinity,
-                func: (() => { if (this.board.gameOver) { this.board = new Board(250, possibleShapes); } }),
+                func: (() => { if (this.board.gameOver) { this.board = new Board(width, possibleShapes); } }),
             },
         });
         setInterval(() => { this.board.tick(); }, 550);

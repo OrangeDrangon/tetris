@@ -41,7 +41,6 @@ class Board {
         if (this.gameOver) { return; }
         for (let i = 0; i < this.state[0].length; i++) {
             if (this.checkRow(i)) {
-                console.log('called');
                 this.state.forEach((column) => {
                     column[i] = undefined;
                     for (let j = i; j >= 0; j--) {
@@ -116,7 +115,7 @@ class Board {
     }
 
     public rotate() {
-        console.log('rotated');
+        this.activePiece.toArray();
     }
 
     private newPiece() {
