@@ -3,9 +3,13 @@ class Board {
     public height: number;
     public resolution: number;
     public gameOver: boolean;
+    public linesCleared: number;
+    public level: number;
     private state: PlacedPiece[][];
     private activePiece: Piece;
     private possibleShapes: PossibleShape[];
+    private interval: number;
+    private tickRate: number;
 
     constructor(width: number, possibleShapes: PossibleShape[]) {
         if (width % 10 !== 0) {
@@ -20,6 +24,10 @@ class Board {
         this.state = new Array(10).fill(undefined).map(() => new Array(20).fill(undefined));
         this.possibleShapes = possibleShapes;
         this.activePiece = this.newPiece();
+        this.linesCleared = 0;
+        this.level = 1;
+        this.tickRate = 550;
+        this.interval = setInterval(() => { this.tick(); }, this.tickRate);
     }
 
     public draw(p: p5) {
@@ -41,6 +49,8 @@ class Board {
         if (this.gameOver) { return; }
         for (let i = 0; i < this.state[0].length; i++) {
             if (this.checkRow(i)) {
+                this.linesCleared++;
+                console.log(this.linesCleared);
                 this.state.forEach((column) => {
                     column[i] = undefined;
                     for (let j = i; j >= 0; j--) {
@@ -51,6 +61,13 @@ class Board {
                         }
                     }
                 });
+                if (this.linesCleared % 10 === 0) {
+                    this.level++;
+                    console.log(this.level);
+                    clearInterval(this.interval);
+                    this.tickRate *= 0.75;
+                    this.interval = setInterval(() => { this.tick(); }, this.tickRate);
+                }
             }
         }
         const points = this.activePiece.points;

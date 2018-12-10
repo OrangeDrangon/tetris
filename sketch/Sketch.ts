@@ -100,7 +100,6 @@ const sketch = (p: p5) => {
                 func: (() => { if (this.board.gameOver) { this.board = new Board(width, possibleShapes); } }),
             },
         });
-        setInterval(() => { this.board.tick(); }, 550);
     };
 
     p.draw = () => {
