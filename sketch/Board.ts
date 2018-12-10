@@ -115,6 +115,8 @@ class Board {
     }
 
     public rotate() {
+        if (this.activePiece.name === 'square') { return; }
+
         const newPoints = this.activePiece.rotate();
 
         if (!newPoints) { return; }
@@ -144,6 +146,7 @@ class Board {
             this.resolution,
             shape.points,
             shape.color,
+            shape.name,
         );
         return newPiece;
     }

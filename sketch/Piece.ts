@@ -1,11 +1,13 @@
 class Piece {
     public points: Points; // Bottom left corner then over then up
     public color: Color;
+    public name: string;
     private resolution: number;
-    constructor(resolution: number, points: Points, color: Color) {
+    constructor(resolution: number, points: Points, color: Color, name?: string) {
         this.points = points;
         this.color = color;
         this.resolution = resolution;
+        this.name = name;
     }
 
     public draw(p: p5) {
@@ -20,11 +22,11 @@ class Piece {
         const s = Math.sin(angle);
         const c = Math.cos(angle);
 
-        const origin = new Point(this.points[2].x + 1, 20 - this.points[2].y + 1);
-
         const newPoints: Point[] = [];
 
-        this.points.forEach((point, index) => {
+        const origin = new Point(this.points[2].x + 1, 20 - this.points[2].y + 1);
+
+        this.points.forEach((point) => {
             const transformedX = point.x + 1 - origin.x;
             const transformedY = (20 - point.y + 1) - origin.y;
 

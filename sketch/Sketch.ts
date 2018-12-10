@@ -2,6 +2,7 @@ const possibleShapes: PossibleShape[] = [
     // square
     {
         color: { r: 225, g: 0, b: 0 },
+        name: 'square',
         points: [
             new Point(0, -1),
             new Point(1, -1),
@@ -12,6 +13,7 @@ const possibleShapes: PossibleShape[] = [
     // line
     {
         color: { r: 9, g: 249, b: 249 },
+        name: 'line',
         points: [
             new Point(0, -1),
             new Point(0, -2),

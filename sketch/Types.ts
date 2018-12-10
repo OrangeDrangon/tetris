@@ -77,6 +77,7 @@ interface KeyIntervals {
 interface PossibleShape {
     points: Points;
     color: Color;
+    name?: string;
 }
 
 type Points = [Point, Point, Point, Point];
