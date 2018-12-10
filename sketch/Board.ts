@@ -65,7 +65,7 @@ class Board {
                     this.level++;
                     console.log(this.level);
                     clearInterval(this.interval);
-                    this.tickRate *= 0.75;
+                    this.tickRate = Math.floor(0.85 * this.tickRate);
                     this.interval = setInterval(() => { this.tick(); }, this.tickRate);
                 }
             }
