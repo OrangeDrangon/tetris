@@ -15,7 +15,29 @@ class Piece {
         });
     }
 
-    public toArray() {
-        console.log(this.points);
+    public rotate() {
+        const angle = Math.PI / 2;
+        const s = Math.sin(angle);
+        const c = Math.cos(angle);
+
+        const origin = new Point(this.points[2].x + 1, 20 - this.points[2].y + 1);
+
+        const newPoints: Point[] = [];
+
+        this.points.forEach((point, index) => {
+            const transformedX = point.x + 1 - origin.x;
+            const transformedY = (20 - point.y + 1) - origin.y;
+
+            const newX = (transformedX * c - transformedY * s) + origin.x - 1;
+            const newY = 20 - ((transformedX * s + transformedY * c) + origin.y - 1);
+
+            if (newX >= 10 || newX < 0 || newY >= 20 || newY < 0) { return; }
+
+            newPoints.push(new Point(newX, newY));
+        });
+
+        if (newPoints.length !== 4) { return; }
+
+        return newPoints as Points;
     }
 }

@@ -115,7 +115,22 @@ class Board {
     }
 
     public rotate() {
-        this.activePiece.toArray();
+        const newPoints = this.activePiece.rotate();
+
+        if (!newPoints) { return; }
+
+        let over = false;
+
+        newPoints.forEach((point) => {
+            if (this.state[point.x][point.y]) {
+                over = true;
+                return;
+            }
+        });
+
+        if (over) { return; }
+
+        this.activePiece.points = newPoints;
     }
 
     private newPiece() {
