@@ -9,6 +9,6 @@
     "browser-sync": "^2.24.4",
     "concurrently": "^4.1.0",
     "tslint": "^5.11.0",
-    "typescript": "^3.2.2"
+    "typescript": "^3.3.3"
   }
 }
